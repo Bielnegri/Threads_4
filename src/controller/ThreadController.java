@@ -1,43 +1,40 @@
 package controller;
 
+import java.util.Random;
+import model.Corrida;
+
 public class ThreadController extends Thread{
 	
-	private int[] vet;
-	private int n;
+	private int pulo;
+	private int distPercorrida;
+	private int idSapo;
+	private Corrida corrida;
 	
-	public ThreadController(int[] vet, int n) {
+	public ThreadController(Corrida corrida) {
 		super();
-		this.vet = vet;
-		this.n = n;
+		this.corrida = corrida;
+		this.idSapo = (int) threadId();
 	}
 	
 	@Override
-	public void run() {		
-		if(this.n % 2 == 0) {
-			double inicio = System.nanoTime();
-			
-			for(int i = 0; i < this.vet.length; i++) {
-				
-			}
-			
-			double fim = System.nanoTime();
-			double total = fim - inicio;
-			total = total / Math.pow(10, 9);
-			System.out.println("Tempo For: " + total);
-		}
-		else {
-			double inicio = System.nanoTime();
-			
-			for(int n : this.vet) {
-				
-			}
-			
-			double fim = System.nanoTime();
-			double total = fim - inicio;
-			total = total / Math.pow(10, 9);
-			System.out.println("Tempo Foreach: " + total);
-			
-		}
+	public void run() {
+		Random r = new Random();
 		
+		do{
+			System.out.println("Sapo " + idSapo + "\nDistância do pulo: " + pulo + "\nDistância percorrida: " + distPercorrida + "\n");
+			
+			try {
+				sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			pulo = r.nextInt(0, 10);
+			distPercorrida = distPercorrida + pulo;
+			
+		}while(distPercorrida < corrida.getPercurso());
+		
+		corrida.setPosicao(corrida.getPosicao() + 1);
+		System.out.println("O Sapo " + idSapo + " chegou em " + corrida.getPosicao() + "º!!\n");
 	}
 }
