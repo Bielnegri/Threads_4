@@ -1,15 +1,15 @@
 package view;
 
 import controller.ThreadController;
-import model.Corrida;
+import java.util.concurrent.Semaphore;
 
 public class Principal {
 
 	public static void main(String[] args) {
-		Corrida corrida = new Corrida(100);
+		Semaphore mutex = new Semaphore(1);
 		
 		for(int i = 0; i < 5; i++) {
-			ThreadController tc = new ThreadController(corrida);
+			ThreadController tc = new ThreadController(100, mutex);
 			tc.start();
 		}
 	}
